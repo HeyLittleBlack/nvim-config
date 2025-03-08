@@ -6,8 +6,8 @@ local opts = {
   noremap = true,
   silent = true,
 }
-vim.keymap.set({ "n", "i", "c" }, "<C-a>", "<Home>", opts)
-vim.keymap.set({ "n", "i", "c" }, "<C-e>", "<End>", opts)
+--vim.keymap.set({ "n", "i", "c" }, "<C-a>", "<Home>", opts)
+--vim.keymap.set({ "n", "i", "c" }, "<C-e>", "<End>", opts)
 vim.keymap.set("n", "<S-j>", "<cmd>bprevious<cr>", opts)
 vim.keymap.set("n", "<S-k>", "<cmd>bnext<cr>", opts)
 vim.keymap.set("n", "<CR>", "o<ESC>", opts)
