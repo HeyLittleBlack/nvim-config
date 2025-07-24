@@ -30,4 +30,4 @@ local set_autoformat = function(pattern, bool_val)
   })
 end
 
-set_autoformat({ "python" }, false)
+set_autoformat({ "python", "cpp" }, false)
