@@ -17,3 +17,7 @@ vim.keymap.set({ "n" }, "<D-Right>", "$", opts)
 vim.keymap.set({ "i", "c" }, "<D-Left>", "<Home>", opts)
 vim.keymap.set({ "i", "c" }, "<D-Right>", "<End>", opts)
 vim.keymap.del({ "n", "t" }, "<C-/>", opts)
+vim.keymap.set("n", "<C-`>",function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
+vim.keymap.set(
+    "t", "<C-`>", "<cmd>close<cr>", opts
+)
