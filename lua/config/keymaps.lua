@@ -8,8 +8,8 @@ local opts = {
 }
 --vim.keymap.set({ "n", "i", "c" }, "<C-a>", "<Home>", opts)
 --vim.keymap.set({ "n", "i", "c" }, "<C-e>", "<End>", opts)
-vim.keymap.set("n", "<S-j>", "<cmd>bprevious<cr>", opts)
-vim.keymap.set("n", "<S-k>", "<cmd>bnext<cr>", opts)
+vim.keymap.set("n", "<S-j>", "<cmd>BufferLineCyclePrev<cr>", opts)
+vim.keymap.set("n", "<S-k>", "<cmd>BufferLineCycleNext<cr>", opts)
 vim.keymap.set("n", "<CR>", "o<ESC>", opts)
 vim.keymap.set("n", "<S-CR>", "O<ESC>", opts)
 vim.keymap.set({ "n" }, "<D-Left>", "^", opts)
@@ -17,7 +17,12 @@ vim.keymap.set({ "n" }, "<D-Right>", "$", opts)
 vim.keymap.set({ "i", "c" }, "<D-Left>", "<Home>", opts)
 vim.keymap.set({ "i", "c" }, "<D-Right>", "<End>", opts)
 vim.keymap.del({ "n", "t" }, "<C-/>", opts)
-vim.keymap.set("n", "<C-`>",function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
+vim.keymap.set("n", "<C-`>", function()
+  local current_file_dir = vim.fn.expand("%:p:h")
+  local cwd = (current_file_dir and current_file_dir ~= "" and current_file_dir ~= ".")
+    and current_file_dir
+    or LazyVim.root() -- 或者使用 vim.loop.cwd() 来获取当前 Neovim 的工作目录
+    Snacks.terminal(nil, { cwd = cwd}) end, { desc = "Terminal (Root Dir)" })
 vim.keymap.set(
     "t", "<C-`>", "<cmd>close<cr>", opts
 )
