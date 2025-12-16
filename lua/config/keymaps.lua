@@ -26,3 +26,16 @@ vim.keymap.set("n", "<C-`>", function()
 vim.keymap.set(
     "t", "<C-`>", "<cmd>close<cr>", opts
 )
+
+local function open_typora()
+    -- 获取当前文件的完整路径
+    local filepath = vim.fn.expand('%')
+    -- 构建外部命令。使用 'typora' 和文件的完整路径。
+    -- ' & ' 用于在后台运行命令 (适用于 Unix/Linux/macOS)
+    local command = 'Typora ' .. filepath .. '&'
+    -- 在 shell 中执行命令
+    vim.fn.system(command)
+end
+
+vim.keymap.set('n', '<leader>ot', open_typora, { desc = 'Open current file in Typora' })
+
