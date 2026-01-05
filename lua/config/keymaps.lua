@@ -39,3 +39,15 @@ local function open_typora()
 end
 
 vim.keymap.set("n", "<leader>ot", open_typora, { desc = "Open current file in Typora" })
+--
+-- 映射为 <leader>ir (Insert Read)
+vim.keymap.set("n", "<leader>ir", function()
+  -- 获取用户输入的命令
+  local cmd = vim.fn.input("Run command: ")
+  if cmd ~= "" then
+    -- 执行命令并去除末尾换行符
+    local result = vim.fn.system(cmd):gsub("%\n$", "")
+    -- 在光标处插入内容
+    vim.api.nvim_put({ result }, "c", true, true)
+  end
+end, { desc = "Run command and insert at cursor" })
