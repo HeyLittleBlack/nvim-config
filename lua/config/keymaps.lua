@@ -51,3 +51,5 @@ vim.keymap.set("n", "<leader>ir", function()
     vim.api.nvim_put({ result }, "c", true, true)
   end
 end, { desc = "Run command and insert at cursor" })
+
+vim.keymap.set("n", "<F2>", "@@", { desc = "执行上一次宏" })
