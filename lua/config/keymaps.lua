@@ -17,13 +17,52 @@ vim.keymap.set({ "n" }, "<D-Right>", "$", opts)
 vim.keymap.set({ "i", "c" }, "<D-Left>", "<Home>", opts)
 vim.keymap.set({ "i", "c" }, "<D-Right>", "<End>", opts)
 vim.keymap.del({ "n", "t" }, "<C-/>", opts)
-vim.keymap.set("n", "<C-`>", function()
+
+-- local toggle_term = function()
+--   local current_file_dir = vim.fn.expand("%:p:h")
+--   local cwd = (current_file_dir and current_file_dir ~= "" and current_file_dir ~= ".") and current_file_dir
+--     or LazyVim.root() -- 或者使用 vim.loop.cwd() 来获取当前 Neovim 的工作目录
+--   Snacks.terminal(nil, { cwd = cwd })
+-- end
+
+local toggle_term = function()
+  -- 1. 获取用户输入的数字前缀 (例如 2<C-`> 中的 2)
+  -- 如果没有输入数字，count 为 0，我们默认给它 ID "1"
+  local count = vim.v.count
+  local id = (count > 0) and tostring(count) or "1"
+
+  -- 2. 判断当前 buffer 是否是终端
+  local is_term = vim.bo.buftype == "terminal"
+
+  -- 3. 如果当前已经在终端里，且我们想切换/关闭它
+  if is_term then
+    vim.api.nvim_win_close(0, true)
+    return
+  end
+
+  -- 4. 确定工作目录
   local current_file_dir = vim.fn.expand("%:p:h")
   local cwd = (current_file_dir and current_file_dir ~= "" and current_file_dir ~= ".") and current_file_dir
-    or LazyVim.root() -- 或者使用 vim.loop.cwd() 来获取当前 Neovim 的工作目录
-  Snacks.terminal(nil, { cwd = cwd })
-end, { desc = "Terminal (Root Dir)" })
-vim.keymap.set("t", "<C-`>", "<cmd>close<cr>", opts)
+    or LazyVim.root()
+
+  -- 5. 调用 Snacks 终端，并在 title 中显示 ID
+  Snacks.terminal.toggle(nil, {
+    id = id,
+    cwd = cwd,
+    win = {
+      position = "float",
+      border = "rounded",
+      -- 动态显示标题：例如 " Terminal #1 " 或 " Terminal #2 "
+      title = " 󰆍 Terminal #" .. id .. " ",
+      title_pos = "center",
+      -- 可选：给不同 ID 的窗口设置不同的透明度或样式
+      -- winblend = 100,
+    },
+  })
+end
+
+vim.keymap.set({ "n", "t" }, "<C-`>", toggle_term, { desc = "Terminal (Root Dir)" })
+-- vim.keymap.set("t", "<C-`>", "<cmd>close<cr>", opts)
 
 local function open_typora()
   -- 获取当前文件的完整路径
