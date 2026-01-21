@@ -40,6 +40,28 @@ local toggle_term = function()
     return
   end
 
+  -- for _, term in pairs(Snacks.terminal.list()) do
+  --   local print_string = string.format("term.buf = %d, term.id = %d", term.buf, term.id)
+  --   local meta = vim.b[term.buf].snacks_terminal
+  --   print_string = print_string .. " meta.id = " .. meta.id
+  --   vim.notify(print_string, "debug")
+  -- end
+  local find_term_by_id = function(target_id)
+    for _, term in pairs(Snacks.terminal.list()) do
+      local meta = vim.b[term.buf].snacks_terminal
+      -- vim.notify(vim.inspect(meta), "debug")
+      if tostring(meta.id) == target_id then
+        return term
+      end
+    end
+    return nil
+  end
+
+  local existing_term = find_term_by_id(id)
+  if existing_term then
+    existing_term:toggle()
+    return
+  end
   -- 4. 确定工作目录
   local current_file_dir = vim.fn.expand("%:p:h")
   local cwd = (current_file_dir and current_file_dir ~= "" and current_file_dir ~= ".") and current_file_dir
