@@ -114,3 +114,8 @@ vim.keymap.set("n", "<leader>ir", function()
 end, { desc = "Run command and insert at cursor" })
 
 vim.keymap.set("n", "<F2>", "@@", { desc = "执行上一次宏" })
+
+vim.keymap.set("n", "<leader>of", function()
+  local s = string.format("%s\n%s", vim.fn.expand("%:p"), vim.fn.expand("%:t"))
+  vim.notify(s)
+end, { desc = "显示当前文件路径" })
