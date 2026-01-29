@@ -120,3 +120,8 @@ vim.keymap.set("n", "<leader>of", function()
   vim.notify(s)
   vim.fn.setreg("+", vim.fn.expand("%:p"))
 end, { desc = "显示当前文件路径" })
+
+vim.keymap.set("n", "<leader>da", function()
+  local result = tostring(os.date("%Y-%m-%d"))
+  vim.api.nvim_put({ result }, "c", true, true)
+end)
