@@ -125,3 +125,9 @@ vim.keymap.set("n", "<leader>da", function()
   local result = tostring(os.date("%Y-%m-%d"))
   vim.api.nvim_put({ result }, "c", true, true)
 end)
+
+-- 插入当前文件名（带后缀）
+vim.keymap.set("n", "<leader>if", function()
+  local filename = vim.fn.expand("%:t")
+  vim.api.nvim_put({ filename }, "c", true, true)
+end, { desc = "Insert current filename" })
